@@ -228,6 +228,8 @@ class GRANMixtureBernoulli(nn.Module):
     # create symmetry-breaking edge feature for the newly generated nodes
     att_idx = att_idx.view(-1, 1)
 
+    edges = edges.astype(np.long)
+    
     if self.has_rand_feat:
       # create random feature
       att_edge_feat = torch.zeros(edges.shape[0],
@@ -243,11 +245,7 @@ class GRANMixtureBernoulli(nn.Module):
       att_edge_feat = torch.zeros(edges.shape[0],
                                   2 * self.att_edge_dim).to(node_feat.device)
       # scatter with empty index seems to cause problem on CPU but not on GPU
-      print("Edges")
-      print(type(edges[:,0]))
-      print("att_idx")
-      print(type(att_idx))
-      att_edge_feat = att_edge_feat.scatter(1, att_idx[[np.long(edges[:, 0])]], 1)
+      att_edge_feat = att_edge_feat.scatter(1, att_idx[[edges[:, 0]]], 1)
       att_edge_feat = att_edge_feat.scatter(
           1, att_idx[[edges[:, 1]]] + self.att_edge_dim, 1)
 
