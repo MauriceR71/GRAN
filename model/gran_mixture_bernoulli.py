@@ -243,7 +243,11 @@ class GRANMixtureBernoulli(nn.Module):
       att_edge_feat = torch.zeros(edges.shape[0],
                                   2 * self.att_edge_dim).to(node_feat.device)
       # scatter with empty index seems to cause problem on CPU but not on GPU
-      att_edge_feat = att_edge_feat.scatter(1, att_idx[[edges[:, 0]]], 1)
+      print("Edges")
+      print(type(edges[:,0]))
+      print("att_idx")
+      print(type(att_idx))
+      att_edge_feat = att_edge_feat.scatter(1, att_idx[[np.long(edges[:, 0])]], 1)
       att_edge_feat = att_edge_feat.scatter(
           1, att_idx[[edges[:, 1]]] + self.att_edge_dim, 1)
 
