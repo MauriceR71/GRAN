@@ -259,8 +259,8 @@ class GRANData(object):
       ### adjust index basis for the selected subgraphs
       cum_size = np.cumsum([0] + subgraph_size).astype(np.long)
       for ii in range(len(edges)):
-        print(type(edges[ii]))
-        print(type(cum_size[ii]))
+        #print(type(edges[ii]))
+        #print(type(cum_size[ii]))
         edges[ii] += np.long(cum_size[ii])
         node_idx_gnn[ii] += np.long(cum_size[ii])
 
