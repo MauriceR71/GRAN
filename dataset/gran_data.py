@@ -261,8 +261,8 @@ class GRANData(object):
       for ii in range(len(edges)):
         print(type(edges[ii]))
         print(type(cum_size[ii]))
-        edges[ii] += long(cum_size[ii])
-        node_idx_gnn[ii] += long(cum_size[ii])
+        edges[ii] += np.long(cum_size[ii])
+        node_idx_gnn[ii] += np.long(cum_size[ii])
 
       ### pack tensors
       data = {}
