@@ -257,7 +257,7 @@ class GRANData(object):
           subgraph_count += 1
 
       ### adjust index basis for the selected subgraphs
-      cum_size = np.cumsum([0] + subgraph_size).astype(np.float)
+      cum_size = np.cumsum([0] + subgraph_size).astype(np.long)
       for ii in range(len(edges)):
         edges[ii] += cum_size[ii]
         node_idx_gnn[ii] += cum_size[ii]
