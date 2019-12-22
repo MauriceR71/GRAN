@@ -228,7 +228,6 @@ class GRANMixtureBernoulli(nn.Module):
     # create symmetry-breaking edge feature for the newly generated nodes
     att_idx = att_idx.view(-1, 1)
 
-    print(edges.type())
     edges = edges.long()
     
     if self.has_rand_feat:
