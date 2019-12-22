@@ -40,7 +40,7 @@ train:
   lr_decay: 0.3
   lr_decay_epoch: [100000000] # no decay
   num_workers: 8
-  max_epoch: 100000
+  max_epoch: 250
   batch_size: 20
   display_iter: 10
   snapshot_epoch: 1000
