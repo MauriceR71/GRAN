@@ -306,6 +306,8 @@ class GranRunner(object):
           input_dict['batch_size']=self.test_conf.batch_size
           input_dict['num_nodes_pmf']=self.num_nodes_pmf_train
           A_tmp = model(input_dict)
+          print("A_tmp")
+          print(str(A_tmp))
           gen_run_time += [time.time() - start_time]
           A_pred += [aa.data.cpu().numpy() for aa in A_tmp]
           num_nodes_pred += [aa.shape[0] for aa in A_tmp]
@@ -313,6 +315,9 @@ class GranRunner(object):
       logger.info('Average test time per mini-batch = {}'.format(
           np.mean(gen_run_time)))
           
+      print("A_pred")
+      print(str(A_pred))
+        
       graphs_gen = [get_graph(aa) for aa in A_pred]
 
     ### Visualize Generated Graphs
