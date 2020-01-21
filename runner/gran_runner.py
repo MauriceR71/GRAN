@@ -307,7 +307,7 @@ class GranRunner(object):
           input_dict['num_nodes_pmf']=self.num_nodes_pmf_train
           A_tmp = model(input_dict)
           print("A_tmp")
-          print(str(A_tmp))
+          #print(str(A_tmp))
           gen_run_time += [time.time() - start_time]
           A_pred += [aa.data.cpu().numpy() for aa in A_tmp]
           num_nodes_pred += [aa.shape[0] for aa in A_tmp]
@@ -316,7 +316,7 @@ class GranRunner(object):
           np.mean(gen_run_time)))
           
       print("A_pred")
-      print(str(A_pred))
+      #print(str(A_pred))
         
       graphs_gen = [get_graph(aa) for aa in A_pred]
 
