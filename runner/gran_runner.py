@@ -210,10 +210,13 @@ class GranRunner(object):
       resume_epoch = self.train_conf.resume_epoch
 
     print("model parameters:")
-    print(model.parameters())
+    for name, param in model.named_parameters():
+      if param.requires_grad:
+        print(name, param.data)
+        # if name == "":
+        #   param.requires_grad = False
     print("model summary:")
     print(model)
-    print(summary(model))
 
     # Training Loop
     iter_count = 0    
