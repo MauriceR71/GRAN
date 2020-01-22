@@ -212,7 +212,8 @@ class GranRunner(object):
     print("model parameters:")
     print(model.parameters())
     print("model summary:")
-    print(summary(model, (512, 512)))
+    print(model)
+    print(summary(model))
 
     # Training Loop
     iter_count = 0    
