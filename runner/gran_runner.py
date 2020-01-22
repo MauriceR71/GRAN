@@ -212,7 +212,7 @@ class GranRunner(object):
     print("model parameters:")
     for name, param in model.named_parameters():
       if param.requires_grad:
-        print(name, param.data)
+        print(name)
         # if name == "":
         #   param.requires_grad = False
     print("model summary:")
