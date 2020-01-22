@@ -167,6 +167,7 @@ class GRANMixtureBernoulli(nn.Module):
     self.has_rand_feat = False # use random feature instead of 1-of-K encoding
     self.att_edge_dim = 64
 
+    # MLP theta
     self.output_theta = nn.Sequential(
         nn.Linear(self.hidden_dim, self.hidden_dim),
         nn.ReLU(inplace=True),
@@ -174,6 +175,7 @@ class GRANMixtureBernoulli(nn.Module):
         nn.ReLU(inplace=True),
         nn.Linear(self.hidden_dim, self.output_dim * self.num_mix_component))
 
+    # MLP alpha
     self.output_alpha = nn.Sequential(
         nn.Linear(self.hidden_dim, self.hidden_dim),
         nn.ReLU(inplace=True),

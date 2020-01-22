@@ -17,6 +17,7 @@ from torch.utils.data import Dataset, DataLoader
 from tensorboardX import SummaryWriter
 from torch.nn.utils import clip_grad_norm_
 import torch.utils.data.distributed as distributed
+from torchsummary import summary
 
 from model import *
 from dataset import *
@@ -195,7 +196,7 @@ class GranRunner(object):
     # reset gradient
     optimizer.zero_grad()
 
-    # resume training
+    # load in pretrained model (resume training)
     resume_epoch = 0
     if self.train_conf.is_resume:
       model_file = os.path.join(self.train_conf.resume_dir,
@@ -207,6 +208,11 @@ class GranRunner(object):
           optimizer=optimizer,
           scheduler=lr_scheduler)
       resume_epoch = self.train_conf.resume_epoch
+
+    print("model parameters:")
+    print(model.parameters())
+    print("model summary:")
+    print(summary(model, (3, 224, 224)))
 
     # Training Loop
     iter_count = 0    
