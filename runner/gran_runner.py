@@ -363,15 +363,21 @@ class GranRunner(object):
       save_name = os.path.join(self.config.save_dir, 'train_graphs.png')
 
       if self.is_single_plot:
+        to_visualize = []
+        to_visualize.extend(self.graphs_train[:self.num_vis])
+        to_visualize.extend(self.graphs_train[-self.num_vis:])
         draw_graph_list(
-            self.graphs_train[:self.num_vis].extend(self.graphs_train[-self.num_vis:]),
+            to_visualize,
             num_row,
             num_col,
             fname=save_name,
             layout='spring')
-      else:      
+      else:
+        to_visualize = []
+        to_visualize.extend(self.graphs_train[:self.num_vis])
+        to_visualize.extend(self.graphs_train[-self.num_vis:])  
         draw_graph_list_separate(
-            self.graphs_train[:self.num_vis].extend(self.graphs_train[-self.num_vis:]),
+            to_visualize,
             fname=save_name[:-4],
             is_single=True,
             layout='spring')
