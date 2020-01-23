@@ -79,7 +79,7 @@ def preprocess_graph_list(graph_list):
       graph_list[i] = pick_connected_component_new(graph_list[i])
   return graph_list
 
-
+# set node_attributes to True in function calls #
 def graph_load_batch(data_dir,
                      min_num_nodes=20,
                      max_num_nodes=1000,
@@ -194,6 +194,15 @@ def create_graphs(graph_type, data_dir='data', noise=10.0, seed=1234):
         min_num_nodes=100,
         max_num_nodes=500,
         name='DD',
+        node_attributes=False,  # set this to true for aa prediction?
+        graph_labels=True)
+    # args.max_prev_node = 230
+  elif graph_type == 'DMP':
+    graphs = graph_load_batch(
+        data_dir,
+        min_num_nodes=100,
+        max_num_nodes=500,
+        name='DMP',
         node_attributes=False,
         graph_labels=True)
     # args.max_prev_node = 230
