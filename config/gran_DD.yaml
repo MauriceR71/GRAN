@@ -48,7 +48,7 @@ train:
   lr: 1.0e-4
   wd: 0.0e-4
   momentum: 0.9
-  shuffle: true
+  shuffle: false
   is_resume: false
   resume_epoch: 5000
   resume_dir: # exp/GRAN/your_exp_folder

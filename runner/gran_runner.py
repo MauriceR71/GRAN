@@ -108,7 +108,7 @@ class GranRunner(object):
     if self.train_conf.is_resume:
       self.config.save_dir = self.train_conf.resume_dir
 
-    ### load graphs
+    ### load graphs ###
     self.graphs = create_graphs(config.dataset.name, data_dir=config.dataset.data_path)
     
     self.train_ratio = config.dataset.train_ratio
@@ -329,9 +329,7 @@ class GranRunner(object):
 
       logger.info('Average test time per mini-batch = {}'.format(
           np.mean(gen_run_time)))
-          
-      print("A_pred")
-      #print(str(A_pred))
+
         
       graphs_gen = [get_graph(aa) for aa in A_pred]
 
@@ -366,14 +364,14 @@ class GranRunner(object):
 
       if self.is_single_plot:
         draw_graph_list(
-            self.graphs_train[:self.num_vis],
+            self.graphs_train[:self.num_vis].extend(self.graphs_train[-self.num_vis:]),
             num_row,
             num_col,
             fname=save_name,
             layout='spring')
       else:      
         draw_graph_list_separate(
-            self.graphs_train[:self.num_vis],
+            self.graphs_train[:self.num_vis].extend(self.graphs_train[-self.num_vis:]),
             fname=save_name[:-4],
             is_single=True,
             layout='spring')
