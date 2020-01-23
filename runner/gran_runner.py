@@ -213,8 +213,13 @@ class GranRunner(object):
     for name, param in model.named_parameters():
       if param.requires_grad:
         print(name)
-        # if name == "":
-        #   param.requires_grad = False
+        if name not in ["module.decoder.att_head.6.2.weight", "module.decoder.att_head.6.2.bias", 
+                        "module.decoder.msg_func.6.2.weight", "module.decoder.msg_func.6.2.bias",
+                        "module.decoder.update_func.6.weight_ih", "module.decoder.update_func.6.weight_hh",
+                        "module.decoder.update_func.6.bias_ih", "module.decoder.update_func.6.bias_hh"]:
+          param.requires_grad = False
+        else:
+          param.requires_grad = True
     print("model summary:")
     print(model)
 
