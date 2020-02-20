@@ -450,6 +450,9 @@ class GRANMixtureBernoulli(nn.Module):
     if not is_sampling:
       B, _, N, _ = A_pad.shape
 
+      print("A pad's N value is")
+      print(N)
+
       ### compute adj loss
       log_theta, log_alpha = self._inference(
           A_pad=A_pad,
