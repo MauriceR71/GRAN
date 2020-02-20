@@ -194,7 +194,7 @@ def create_graphs(graph_type, data_dir='data', noise=10.0, seed=1234):
         min_num_nodes=100,
         max_num_nodes=500,
         name='DD',
-        node_attributes=False,  # set this to true for aa prediction?
+        node_attributes=False,
         graph_labels=True)
     # args.max_prev_node = 230
   elif graph_type == 'DMP':

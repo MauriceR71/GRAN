@@ -159,6 +159,7 @@ class GranRunner(object):
 
   def train(self):
     ### create data loader
+    ## bottom line is actually train_dataset = GRANData(self.config, self.graphs_train, tag='train')
     train_dataset = eval(self.dataset_conf.loader_name)(self.config, self.graphs_train, tag='train')
     train_loader = torch.utils.data.DataLoader(
         train_dataset,
@@ -209,19 +210,21 @@ class GranRunner(object):
           scheduler=lr_scheduler)
       resume_epoch = self.train_conf.resume_epoch
 
-    print("model parameters:")
-    for name, param in model.named_parameters():
-      if param.requires_grad:
-        print(name)
-        if name not in ["module.decoder.att_head.6.2.weight", "module.decoder.att_head.6.2.bias", 
-                        "module.decoder.msg_func.6.2.weight", "module.decoder.msg_func.6.2.bias",
-                        "module.decoder.update_func.6.weight_ih", "module.decoder.update_func.6.weight_hh",
-                        "module.decoder.update_func.6.bias_ih", "module.decoder.update_func.6.bias_hh"]:
-          param.requires_grad = False
-        else:
-          param.requires_grad = True
-    print("model summary:")
-    print(model)
+    # for transfer learning
+
+    # print("model parameters:")
+    # for name, param in model.named_parameters():
+    #   if param.requires_grad:
+    #     print(name)
+    #     if name not in ["module.decoder.att_head.6.2.weight", "module.decoder.att_head.6.2.bias", 
+    #                     "module.decoder.msg_func.6.2.weight", "module.decoder.msg_func.6.2.bias",
+    #                     "module.decoder.update_func.6.weight_ih", "module.decoder.update_func.6.weight_hh",
+    #                     "module.decoder.update_func.6.bias_ih", "module.decoder.update_func.6.bias_hh"]:
+    #       param.requires_grad = False
+    #     else:
+    #       param.requires_grad = True
+    # print("model summary:")
+    # print(model)
 
     # Training Loop
     iter_count = 0    
@@ -321,8 +324,6 @@ class GranRunner(object):
           input_dict['batch_size']=self.test_conf.batch_size
           input_dict['num_nodes_pmf']=self.num_nodes_pmf_train
           A_tmp = model(input_dict)
-          print("A_tmp")
-          #print(str(A_tmp))
           gen_run_time += [time.time() - start_time]
           A_pred += [aa.data.cpu().numpy() for aa in A_tmp]
           num_nodes_pred += [aa.shape[0] for aa in A_tmp]

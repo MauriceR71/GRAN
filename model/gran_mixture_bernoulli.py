@@ -184,10 +184,19 @@ class GRANMixtureBernoulli(nn.Module):
         nn.Linear(self.hidden_dim, self.num_mix_component),
         nn.LogSoftmax(dim=1))
 
+    # MLP sigma
+    self.output_sigma = nn.Sequential(
+    	nn.Linear(self.hidden_dim, self.hidden_dim),
+        nn.ReLU(inplace=True),
+        nn.Linear(self.hidden_dim, self.hidden_dim),
+        nn.ReLU(inplace=True),
+        nn.Linear(self.hidden_dim, 20),
+        nn.LogSoftmax(dim=1))
+
     if self.dimension_reduce:
       self.embedding_dim = config.model.embedding_dim
       self.decoder_input = nn.Sequential(
-          nn.Linear(self.max_num_nodes, self.embedding_dim))
+          nn.Linear(self.max_num_nodes, self.embedding_dim))  # Equation (2)
     else:
       self.embedding_dim = self.max_num_nodes
 
@@ -211,6 +220,8 @@ class GRANMixtureBernoulli(nn.Module):
                  node_idx_feat=None,
                  att_idx=None):
     """ generate adj in row-wise auto-regressive fashion """
+
+    # Figure out where each new node is generated ^^^
 
     B, C, N_max, _ = A_pad.shape
     H = self.hidden_dim
@@ -257,17 +268,26 @@ class GRANMixtureBernoulli(nn.Module):
         node_feat[node_idx_feat], edges, edge_feat=att_edge_feat)
 
     ### Pairwise predict edges
-    diff = node_state[node_idx_gnn[:, 0], :] - node_state[node_idx_gnn[:, 1], :]
+    h_iR = node_state[node_idx_gnn[:, 0], :]
+    h_jR = node_state[node_idx_gnn[:, 1], :]
+    diff = h_iR - h_jR
     
     log_theta = self.output_theta(diff)  # B X (tt+K)K
+    print("log theta shape: ")
+    print(log_theta.shape)
     log_alpha = self.output_alpha(diff)  # B X (tt+K)K
     log_theta = log_theta.view(-1, self.num_mix_component)  # B X CN(N-1)/2 X K
     log_alpha = log_alpha.view(-1, self.num_mix_component)  # B X CN(N-1)/2 X K
 
+    log_sigma = self.output_sigma(h_iR)
+    print("log sigma shape: ")
+    print(log_sigma.shape)  # Expected shape: 20 x some number
+    
     return log_theta, log_alpha
 
   def _sampling(self, B):
     """ generate adj in row-wise auto-regressive fashion """
+    # Figure out where each new node is generated ^^^
 
     K = self.block_size
     S = self.sample_stride
